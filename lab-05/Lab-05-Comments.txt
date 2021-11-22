@@ -1,0 +1,37 @@
+Change the max-repitions for getbulk in SnmpB from 10 to 5 and see the Wireshark output.
+
+
+Add Interface Loop1 to Windows
+
+Change IP addresses as follows:
+
+#Windows:
+#  172.31.1.10
+#  255.255.255.0
+
+
+New-NetIPAddress –InterfaceAlias "Loop1" -AddressFamily IPv4 -IPAddress 172.31.1.10 –PrefixLength 24
+route add 172.31.0.0 mask 255.255.0.0 172.31.1.1 metric 1
+
+
+New-NetFirewallRule -DisplayName "SnmpPDU" -Direction Inbound -Protocol UDP  -LocalPort 161 -Action Allow
+New-NetFirewallRule -DisplayName "SnmpTraps" -Direction Inbound -Protocol UDP  -LocalPort 162 -Action Allow
+
+
+
+
+
+Router
+int e0/0
+  ip address172.31.1.1
+  255.255.255.0
+
+int e0/1
+  ip address172.31.2.1
+  255.255.255.0
+
+
+
+
+
+

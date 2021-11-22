@@ -1,0 +1,23 @@
+#Make sure KM-Loopback interface is setup on Windows and its name is Loop1
+#Important: Windows user must be NET311. Qemu hda paths rely on this absolute path C:\Users\NET311\GNS3\ ...
+#R1
+#R2
+#R3
+
+#PC
+New-NetIPAddress –InterfaceAlias "Loop1" -AddressFamily IPv4 -IPAddress 10.0.1.10 –PrefixLength 24 -DefaultGateway 10.0.1.1
+route add 10.0.0.0 mask 255.0.0.0 10.0.1.1 metric 1
+
+
+New-NetFirewallRule -DisplayName "SnmpPDU" -Direction Inbound -Protocol UDP  -LocalPort 161 -Action Allow
+New-NetFirewallRule -DisplayName "SnmpTraps" -Direction Inbound -Protocol UDP  -LocalPort 162 -Action Allow
+
+
+#References
+Add Firewall rules
+https://technet.microsoft.com/en-us/library/hh826150.aspx
+
+Set IP address
+https://technet.microsoft.com/en-us/library/jj554908(v=wps.630).aspx
+
+

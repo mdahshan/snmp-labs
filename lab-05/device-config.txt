@@ -1,0 +1,26 @@
+﻿idle PC, 0x821e32ec
+idle PC, 0x8024c2a4
+
+GNS3 VM
+auto eth0
+iface eth0 inet static
+  address 10.2.0.5
+  netmask 255.255.255.0
+  gateway 10.2.0.1
+  dns-nameservers 8.8.8.8
+
+
+R1
+ip address 10.2.0.11 255.255.255.0
+
+
+SM1 
+IP 10.2.0.12
+mask 255.255.255.0
+gateway 10.2.0.1
+
+
+
+
+
+

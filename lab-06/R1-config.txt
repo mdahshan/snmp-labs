@@ -1,0 +1,9 @@
+! SNMPv3 configuration for Lab 6
+snmp-server engineID local 123456789A
+snmp-server view VIEW_SYSTEM system included
+snmp-server view VIEW_ALL iso included
+snmp-server group GROUP1 v3 priv write VIEW_SYSTEM
+snmp-server group GROUP2 v3 priv read VIEW_ALL
+snmp-server user USER1 GROUP1 v3 auth sha Auth1 priv des56 Enc1
+snmp-server user USER2 GROUP2 v3 auth sha Auth2 priv des56 Enc2
+!

@@ -1,0 +1,2 @@
+Install Firefox 64 bit, Wireshark
+Install VirtualBox guest additions

@@ -1,0 +1,40 @@
+sudo -y apt-get install snmp snmpd
+
+sudo cp /etc/snmp/snmpd.conf /etc/snmp/snmpd.conf.orig
+
+snmpconf
+:none
+:1
+:4
+:3
+:public
+:RETURN 
+
+:finished
+
+:5 #system information setup
+:1 #location
+: Lab 4
+
+
+snmpwalk -v 1 -c public localhost .1.3.6.1.2
+
+#lots of text
+
+snmpgetmext -v 1 -c public localhost .1.3.6.1.2
+
+#wireshark?
+
+
+sudo apt-get install snmp-mibs-downloader
+#Then 
+
+snmpgetmext -v 1 -c public localhost .system.sysUpTime
+sudo download-mibs
+https://l3net.wordpress.com/2013/05/12/installing-net-snmp-mibs-on-ubuntu-and-debian/
+
+You can use snmptranslate to check the MIBs have been properly installed by printing the MIB tree:
+snmptranslate -Tp
+
+
+

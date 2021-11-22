@@ -1,0 +1,133 @@
+!
+version 12.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Router
+!
+boot-start-marker
+boot-end-marker
+!
+enable password cisco
+!
+no aaa new-model
+!
+!
+ip cef
+no ip dhcp use vrf connected
+ip dhcp excluded-address 192.168.2.1 192.168.2.10
+!
+ip dhcp pool pool1
+   network 192.168.2.0 255.255.255.0
+   default-router 192.168.2.1
+   dns-server 192.168.2.1
+!
+!
+ip name-server 192.168.1.1
+!
+!
+voice-card 0
+ no dspfarm
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface FastEthernet0/0
+ ip address 192.168.2.1 255.255.255.0
+ ip nat inside
+ ip virtual-reassembly
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ ip address dhcp
+ ip nat outside
+ ip virtual-reassembly
+ duplex auto
+ speed auto
+!
+interface Serial0/0/0
+ no ip address
+ shutdown
+ clock rate 2000000
+!
+interface Serial0/0/1
+ no ip address
+ shutdown
+ clock rate 2000000
+!
+interface Serial0/1/0
+ no ip address
+ shutdown
+ clock rate 125000
+!
+interface Serial0/1/1
+ no ip address
+ shutdown
+ clock rate 125000
+!
+!
+ip dns server
+!
+no ip http server
+no ip http secure-server
+ip nat inside source list 1 interface FastEthernet0/1 overload
+!
+ip access-list standard SNMP_ACL
+ permit 192.168.0.0 0.0.255.255
+!
+access-list 1 permit 192.168.2.0 0.0.0.255
+snmp-server community public RO SNMP_ACL
+snmp-server community private RW SNMP_ACL
+snmp-server location Lab4
+snmp-server enable traps
+!snmp-server enable traps snmp authentication linkdown linkup coldstart warmstart
+!
+!
+snmp-server host 192.168.2.10 version 2c public
+snmp-server host 192.168.2.11 version 2c public
+snmp-server host 192.168.2.12 version 2c public
+snmp-server host 192.168.2.13 version 2c public
+snmp-server host 192.168.2.14 version 2c public
+snmp-server host 192.168.2.15 version 2c public
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+line aux 0
+line vty 0 4
+ password cisco
+ login
+!
+scheduler allocate 20000 1000
+!
+end

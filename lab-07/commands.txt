@@ -1,0 +1,41 @@
+#Get-Request v2c single OID
+snmpget -v2c -c private 10.0.0.12 1.3.6.1.2.1.1.3.0
+snmpget -v2c -c private 10.0.0.12 .1.3.6.1.2.1.1.4.0
+
+
+
+#Get-Request v3
+snmpget -v3 -u user3 -a SHA -A authpass -x DES -X encrpass -l authPriv 10.0.0.12 system.sysLocation
+
+#GetNext-Request
+snmpgetnext -v3 -u user3 -a SHA -A authpass -x DES -X encrpass -l authPriv 10.0.0.12 system
+
+
+#set-request v2c
+snmpset -v2c -c private 10.0.0.10 sysContact.0 s "Mostafa Dahshan"
+
+#set-request v3
+snmpset -v3 -u user3 -a SHA -A authpass -x DES -X encrpass -l authPriv 10.0.0.10 sysContact.0 s "Mostafa Dahshan"
+
+
+
+#Get-Request v2c multiple values
+snmpget -v2c -c private 10.0.0.12 .1.3.6.1.2.1.1.4.0
+
+
+#GetBulk-Request v2c Cn2 Cr3
+snmpbulkget -v2c -c private -Cn2 -Cr3 10.0.2.1 sysDescr sysLocation ipAdEntAddr
+
+
+#GetBulk-Request v2c Cn0 Cr8
+
+
+#Generate Trap
+#on s1, this simulates a system reset
+service snmpd restart
+
+
+#Generate Trap
+#on s2, cause authentication failure trap
+snmpget -v2c -c wrongcom 10.0.0.12 .1.3.6.1.2.1.1.4.0
+

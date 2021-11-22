@@ -1,0 +1,455 @@
+node n2 {
+    type lanswitch
+    network-config {
+	hostname sw1
+	!
+    }
+    canvas c1
+    iconcoords {356.0 105.0}
+    labelcoords {356.0 129.0}
+    interface-peer {e2 n5}
+    interface-peer {e3 n4}
+    interface-peer {e0 n8}
+}
+
+node n3 {
+    type lanswitch
+    network-config {
+	hostname sw2
+	!
+    }
+    canvas c1
+    iconcoords {354.0 208.0}
+    labelcoords {354.0 232.0}
+    interface-peer {e0 n8}
+    interface-peer {e1 n1}
+    interface-peer {e2 n7}
+}
+
+node n4 {
+    type router
+    model host
+    network-config {
+	hostname s1
+	!
+	interface eth0
+	 ip address 10.0.0.12/24
+	 ipv6 address 2001:0::12/64
+	!
+    }
+    canvas c1
+    iconcoords {484.0 44.0}
+    labelcoords {484.0 76.0}
+    interface-peer {eth0 n2}
+    custom-config {
+	custom-config-id service:UserDefined
+	custom-command UserDefined
+	config {
+	dirs=('/etc/snmp', '/var/lib/snmp', )
+	files=('/etc/snmp/snmpd.conf', '/var/lib/snmp/snmpd.conf', )
+	cmdup=('service snmpd start', )
+	cmddown=('service snmp stop', )
+	cmdval=('service snmp status', )
+	}
+    }
+    custom-config {
+	custom-config-id service:UserDefined:/var/lib/snmp/snmpd.conf
+	custom-command /var/lib/snmp/snmpd.conf
+	config {
+	createUser  user3   SHA authpass DES encrpass
+	}
+    }
+    custom-config {
+	custom-config-id service:UserDefined:/etc/snmp/snmpd.conf
+	custom-command /etc/snmp/snmpd.conf
+	config {
+	#
+	agentAddress udp:161,udp6:[::1]:161
+	sysLocation Lab 4 NET311
+	
+	#VACM Config
+	#         sec.name  source        community
+	com2sec   private   10.0.0.0/8    private
+	com2sec   private   127.0.0.0/8     private
+	
+	#groups
+	#               sec.model  sec.name
+	group  group2   v2c        private
+	group  group3   usm        user3
+	
+	#              incl/excl   subtree     [mask]
+	view   view2   included    .1
+	view   view3   included    .1
+	
+	#               context model   level   prefix  read    write   notify (unused)
+	access  group2  ""      any     noauth  exact   view2   none    none
+	access  group3  ""      any     priv    exact   view3   view3   none
+	
+	#Traps
+	trap2sink   10.0.2.20   private
+	linkUpDownNotifications yes
+	authtrapenable  1
+	
+	}
+    }
+    services {DefaultRoute SSH UserDefined}
+}
+
+node n5 {
+    type router
+    model host
+    network-config {
+	hostname s2
+	!
+	interface eth0
+	 ip address 10.0.0.10/24
+	 ipv6 address 2001:0::10/64
+	!
+    }
+    canvas c1
+    iconcoords {193.0 35.0}
+    labelcoords {193.0 67.0}
+    interface-peer {eth0 n2}
+    custom-config {
+	custom-config-id service:UserDefined
+	custom-command UserDefined
+	config {
+	dirs=('/etc/snmp', '/var/lib/snmp', )
+	files=('/etc/snmp/snmpd.conf', '/var/lib/snmp/snmpd.conf', )
+	cmdup=('service snmpd start', )
+	cmddown=('service snmp stop', )
+	cmdval=('service snmp status', )
+	}
+    }
+    custom-config {
+	custom-config-id service:UserDefined:/var/lib/snmp/snmpd.conf
+	custom-command /var/lib/snmp/snmpd.conf
+	config {
+	createUser  user3   SHA authpass DES encrpass
+	}
+    }
+    custom-config {
+	custom-config-id service:UserDefined:/etc/snmp/snmpd.conf
+	custom-command /etc/snmp/snmpd.conf
+	config {
+	#
+	agentAddress udp:161,udp6:[::1]:161
+	sysLocation Lab 4 NET311
+	
+	#VACM Config
+	#         sec.name  source        community
+	com2sec   private   10.0.0.0/8    private
+	com2sec   private   127.0.0.0/8   private
+	
+	#groups
+	#               sec.model  sec.name
+	group  group2   v2c        private
+	group  group3   usm        user3
+	
+	#              incl/excl   subtree     [mask]
+	view   view2   included    .1
+	view   view3   included    .1
+	
+	#               context model   level   prefix  read    write   notify (unused)
+	access  group2  ""      any     noauth  exact   view2   none    none
+	access  group3  ""      any     priv    exact   view3   view3   none
+	
+	#Traps
+	trap2sink   10.0.2.20   private
+	linkUpDownNotifications yes
+	authtrapenable  1
+	
+	}
+    }
+    services {DefaultRoute SSH UserDefined}
+}
+
+node n6 {
+    type router
+    model PC
+    network-config {
+	hostname pc1
+	!
+	interface eth0
+	 ip address 10.0.2.20/24
+	 ipv6 address 2001:2::20/64
+	!
+    }
+    canvas c1
+    iconcoords {72.0 332.0}
+    labelcoords {72.0 364.0}
+    interface-peer {eth0 n8}
+}
+
+node n8 {
+    type router
+    model router
+    network-config {
+	hostname r1
+	!
+	interface eth2
+	 ip address 10.0.2.1/24
+	 ipv6 address 2001:2::1/64
+	!
+	interface eth0
+	 ip address 10.0.1.1/24
+	 ipv6 address 2001:1::1/64
+	!
+	interface eth1
+	 ip address 10.0.0.1/24
+	 ipv6 address 2001:0::1/64
+	!
+    }
+    canvas c1
+    iconcoords {181.0 181.0}
+    labelcoords {181.0 213.0}
+    interface-peer {eth1 n2}
+    interface-peer {eth0 n3}
+    interface-peer {eth2 n6}
+    custom-config {
+	custom-config-id service:UserDefined
+	custom-command UserDefined
+	config {
+	dirs=('/etc/snmp', '/var/lib/snmp', )
+	files=('/etc/snmp/snmpd.conf', '/var/lib/snmp/snmpd.conf', )
+	cmdup=('service snmpd start', )
+	cmddown=('service snmp stop', )
+	cmdval=('service snmp status', )
+	}
+    }
+    custom-config {
+	custom-config-id service:UserDefined:/var/lib/snmp/snmpd.conf
+	custom-command /var/lib/snmp/snmpd.conf
+	config {
+	createUser  user3   SHA authpass DES encrpass
+	}
+    }
+    custom-config {
+	custom-config-id service:UserDefined:/etc/snmp/snmpd.conf
+	custom-command /etc/snmp/snmpd.conf
+	config {
+	#
+	agentAddress udp:161,udp6:[::1]:161
+	sysLocation Lab 4 NET311
+	
+	#VACM Config
+	#         sec.name  source        community
+	com2sec   private   10.0.0.0/8    private
+	com2sec   private   127.0.0.0/8   private
+	
+	#groups
+	#               sec.model  sec.name
+	group  group2   v2c        private
+	group  group3   usm        user3
+	
+	#              incl/excl   subtree     [mask]
+	view   view2   included    .1
+	view   view3   included    .1
+	
+	#               context model   level   prefix  read    write   notify (unused)
+	access  group2  ""      any     noauth  exact   view2   none    none
+	access  group3  ""      any     priv    exact   view3   view3   none
+	
+	#Traps
+	trap2sink   10.0.2.20   private
+	linkUpDownNotifications yes
+	authtrapenable  1
+	
+	}
+    }
+    services {zebra OSPFv2 OSPFv3 vtysh IPForward UserDefined}
+}
+
+node n1 {
+    type router
+    model host
+    network-config {
+	hostname s3
+	!
+	interface eth0
+	 ip address 10.0.1.10/24
+	 ipv6 address 2001:1::10/64
+	!
+    }
+    canvas c1
+    iconcoords {494.0 208.0}
+    labelcoords {494.0 240.0}
+    interface-peer {eth0 n3}
+    custom-config {
+	custom-config-id service:UserDefined
+	custom-command UserDefined
+	config {
+	dirs=('/etc/snmp', '/var/lib/snmp', )
+	files=('/etc/snmp/snmpd.conf', '/var/lib/snmp/snmpd.conf', )
+	cmdup=('service snmpd start', )
+	cmddown=('service snmp stop', )
+	cmdval=('service snmp status', )
+	}
+    }
+    custom-config {
+	custom-config-id service:UserDefined:/var/lib/snmp/snmpd.conf
+	custom-command /var/lib/snmp/snmpd.conf
+	config {
+	createUser  user3   SHA authpass DES encrpass
+	}
+    }
+    custom-config {
+	custom-config-id service:UserDefined:/etc/snmp/snmpd.conf
+	custom-command /etc/snmp/snmpd.conf
+	config {
+	#
+	agentAddress udp:161,udp6:[::1]:161
+	sysLocation Lab 4 NET311
+	
+	#VACM Config
+	#         sec.name  source        community
+	com2sec   private   10.0.0.0/8    private
+	com2sec   private   127.0.0.0/8   private	
+
+	#groups
+	#               sec.model  sec.name
+	group  group2   v2c        private
+	group  group3   usm        user3
+	
+	#              incl/excl   subtree     [mask]
+	view   view2   included    .1
+	view   view3   included    .1
+	
+	#               context model   level   prefix  read    write   notify (unused)
+	access  group2  ""      any     noauth  exact   view2   none    none
+	access  group3  ""      any     priv    exact   view3   view3   none
+	
+	#Traps
+	trap2sink   10.0.2.20   private
+	linkUpDownNotifications yes
+	authtrapenable  1
+	
+	}
+    }
+    services {DefaultRoute SSH UserDefined}
+}
+
+node n7 {
+    type router
+    model host
+    network-config {
+	hostname s4
+	!
+	interface eth0
+	 ip address 10.0.1.11/24
+	 ipv6 address 2001:1::11/64
+	!
+    }
+    canvas c1
+    iconcoords {405.0 322.0}
+    labelcoords {405.0 354.0}
+    interface-peer {eth0 n3}
+    custom-config {
+	custom-config-id service:UserDefined
+	custom-command UserDefined
+	config {
+	dirs=('/etc/snmp', '/var/lib/snmp', )
+	files=('/etc/snmp/snmpd.conf', '/var/lib/snmp/snmpd.conf', )
+	cmdup=('service snmpd start', )
+	cmddown=('service snmp stop', )
+	cmdval=('service snmp status', )
+	}
+    }
+    custom-config {
+	custom-config-id service:UserDefined:/var/lib/snmp/snmpd.conf
+	custom-command /var/lib/snmp/snmpd.conf
+	config {
+	createUser  user3   SHA authpass DES encrpass
+	}
+    }
+    custom-config {
+	custom-config-id service:UserDefined:/etc/snmp/snmpd.conf
+	custom-command /etc/snmp/snmpd.conf
+	config {
+	#
+	agentAddress udp:161,udp6:[::1]:161
+	sysLocation Lab 4 NET311
+	
+	#VACM Config
+	#         sec.name  source        community
+	com2sec   private   10.0.0.0/8    private
+	com2sec   private   127.0.0.0/8   private
+	
+	#groups
+	#               sec.model  sec.name
+	group  group2   v2c        private
+	group  group3   usm        user3
+	
+	#              incl/excl   subtree     [mask]
+	view   view2   included    .1
+	view   view3   included    .1
+	
+	#               context model   level   prefix  read    write   notify (unused)
+	access  group2  ""      any     noauth  exact   view2   none    none
+	access  group3  ""      any     priv    exact   view3   view3   none
+	
+	#Traps
+	trap2sink   10.0.2.20   private
+	linkUpDownNotifications yes
+	authtrapenable  1
+	
+	}
+    }
+    services {DefaultRoute SSH UserDefined}
+}
+
+link l3 {
+    nodes {n2 n5}
+    bandwidth 0
+}
+
+link l6 {
+    nodes {n2 n4}
+    bandwidth 0
+}
+
+link l7 {
+    nodes {n8 n2}
+    bandwidth 0
+}
+
+link l1 {
+    nodes {n8 n3}
+    bandwidth 0
+}
+
+link l2 {
+    nodes {n6 n8}
+    bandwidth 0
+}
+
+link l4 {
+    nodes {n3 n1}
+    bandwidth 0
+}
+
+link l5 {
+    nodes {n3 n7}
+    bandwidth 0
+}
+
+canvas c1 {
+    name {Canvas1}
+}
+
+option global {
+    interface_names yes
+    ip_addresses yes
+    ipv6_addresses no
+    node_labels yes
+    link_labels yes
+    show_api no
+    background_images no
+    annotations yes
+    grid yes
+    traffic_start 0
+}
+
+option session {
+}
+

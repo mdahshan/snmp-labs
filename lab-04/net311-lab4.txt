@@ -1,0 +1,215 @@
+Script started on Mon 22 Feb 2016 06:26:10 PM AST
+
+The following installed configuration files were found:
+
+   1:  /etc/snmp/snmp.conf
+   2:  /etc/snmp/snmpd.conf
+   3:  /etc/snmp/snmptrapd.conf
+
+Would you like me to read them in?  Their content will be merged with the
+output files created by this session.
+
+Valid answer examples: "all", "none","3","1,2,5"
+
+Read in which (default = all): none
+
+I can create the following types of configuration files for you.
+Select the file type you wish to create:
+(you can create more than one as you run this program)
+
+   1:  snmp.conf
+   2:  snmpd.conf
+   3:  snmptrapd.conf
+
+Other options: quit
+
+Select File: 2
+
+The configuration information which can be put into snmpd.conf is divided
+into sections.  Select a configuration section for snmpd.conf
+that you wish to create:
+
+   1:  Extending the Agent
+   2:  Agent Operating Mode
+   3:  Monitor Various Aspects of the Running Host
+   4:  Access Control Setup
+   5:  System Information Setup
+   6:  Trap Destinations
+
+Other options: finished
+
+Select section: 4
+
+Section: Access Control Setup
+Description:
+  This section defines who is allowed to talk to your running
+  snmp agent.
+
+Select from:
+
+   1:  a SNMPv3 read-write user
+   2:  a SNMPv3 read-only user
+   3:  a SNMPv1/SNMPv2c read-only access community name
+   4:  a SNMPv1/SNMPv2c read-write access community name
+
+Other options: finished, list
+
+Select section: 3
+
+Configuring: rocommunity
+Description:
+  a SNMPv1/SNMPv2c read-only access community name
+    arguments:  community [default|hostname|network/bits] [oid]
+
+The community name to add read-only access for: public
+The hostname or network address to accept this community name from [RETURN for all]: 
+The OID that this community should be restricted to [RETURN for no-restriction]: 
+
+Finished Output: rocommunity  public  
+
+Section: Access Control Setup
+Description:
+  This section defines who is allowed to talk to your running
+  snmp agent.
+
+Select from:
+
+   1:  a SNMPv3 read-write user
+   2:  a SNMPv3 read-only user
+   3:  a SNMPv1/SNMPv2c read-only access community name
+   4:  a SNMPv1/SNMPv2c read-write access community name
+
+Other options: finished, list
+
+Select section: finished
+
+The configuration information which can be put into snmpd.conf is divided
+into sections.  Select a configuration section for snmpd.conf
+that you wish to create:
+
+   1:  Extending the Agent
+   2:  Agent Operating Mode
+   3:  Monitor Various Aspects of the Running Host
+   4:  Access Control Setup
+   5:  System Information Setup
+   6:  Trap Destinations
+
+Other options: finished
+
+Select section: 5
+
+Section: System Information Setup
+Description:
+  This section defines some of the information reported in
+  the "system" mib group in the mibII tree.
+
+Select from:
+
+   1:  The [typically physical] location of the system.
+   2:  The contact information for the administrator
+   3:  The proper value for the sysServices object.
+
+Other options: finished, list
+
+Select section: 1
+
+Configuring: syslocation
+Description:
+  The [typically physical] location of the system.
+    Note that setting this value here means that when trying to
+    perform an snmp SET operation to the sysLocation.0 variable will make
+    the agent return the "notWritable" error code.  IE, including
+    this token in the snmpd.conf file will disable write access to
+    the variable.
+    arguments:  location_string
+
+The location of the system: Lab 4
+
+Finished Output: syslocation  "Lab 4"
+
+Section: System Information Setup
+Description:
+  This section defines some of the information reported in
+  the "system" mib group in the mibII tree.
+
+Select from:
+
+   1:  The [typically physical] location of the system.
+   2:  The contact information for the administrator
+   3:  The proper value for the sysServices object.
+
+Other options: finished, list
+
+Select section: 2
+
+Configuring: syscontact
+Description:
+  The contact information for the administrator
+    Note that setting this value here means that when trying to
+    perform an snmp SET operation to the sysContact.0 variable will make
+    the agent return the "notWritable" error code.  IE, including
+    this token in the snmpd.conf file will disable write access to
+    the variable.
+    arguments:  contact_string
+
+The contact information: Mostafa Dahshan <mdahshan@ksu.edu.sa>
+
+Finished Output: syscontact  "Mostafa Dahshan <mdahshan@ksu.edu.sa>"
+
+Section: System Information Setup
+Description:
+  This section defines some of the information reported in
+  the "system" mib group in the mibII tree.
+
+Select from:
+
+   1:  The [typically physical] location of the system.
+   2:  The contact information for the administrator
+   3:  The proper value for the sysServices object.
+
+Other options: finished, list
+
+Select section: finished
+
+The configuration information which can be put into snmpd.conf is divided
+into sections.  Select a configuration section for snmpd.conf
+that you wish to create:
+
+   1:  Extending the Agent
+   2:  Agent Operating Mode
+   3:  Monitor Various Aspects of the Running Host
+   4:  Access Control Setup
+   5:  System Information Setup
+   6:  Trap Destinations
+
+Other options: finished
+
+Select section: finished
+
+I can create the following types of configuration files for you.
+Select the file type you wish to create:
+(you can create more than one as you run this program)
+
+   1:  snmp.conf
+   2:  snmpd.conf
+   3:  snmptrapd.conf
+
+Other options: quit
+
+Select File: quit
+
+
+The following files were created:
+
+  snmpd.conf  
+
+These files should be moved to /usr/share/snmp if you
+want them used by everyone on the system.  In the future, if you add 
+the -i option to the command line I'll copy them there automatically for you.
+
+Or, if you want them for your personal use only, copy them to
+/home/labuser/.snmp .  In the future, if you add the -p option to the
+command line I'll copy them there automatically for you.
+
+
+Script done on Mon 22 Feb 2016 06:28:32 PM AST

@@ -1,0 +1,23 @@
+#In OpenNMS Configuration -> Discovery
+change timeout to 10000
+change retries to 5
+
+*DONE*
+
+#In VPCS startup
+Add 
+
+sleep 10
+ip dhcp
+sleep 10
+ip dhcp
+
+
+#In Topology Map -> Search
+Add
+
+Iplike:172.16.0.*
+Iplike:172.16.2.*
+Iplike:172.16.3.*
+
+*DONE*

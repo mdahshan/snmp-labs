@@ -1,0 +1,1 @@
+sudo apt install quagga apache2 at core-network core-network-daemon core-network-gui gksu system-config-samba

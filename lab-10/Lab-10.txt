@@ -1,0 +1,65 @@
+#R1
+service dhcp
+ip dhcp excluded-address 192.168.2.1 192.168.2.9
+!
+ip dhcp pool pool1
+   network 10.0.1.0 255.255.255.0
+   default-router 192.168.2.1
+   dns-server 192.168.1.1   
+
+ip access-list standard SNMP_ACL
+ permit 192.168.2.0 0.255.255.255
+!
+snmp-server community public RO SNMP_ACL
+snmp-server community private RW SNMP_ACL
+snmp-server location "Lab 4 NET 311"
+snmp-server enable traps
+snmp-server host 192.168.2.10 version 2c public
+
+
+#ESW1
+int vlan1
+ip address 192.168.2.2 255.255.255.0
+snmp-server community public RO SNMP_ACL
+snmp-server community private RW SNMP_ACL
+snmp-server location "Lab 4 NET 311"
+snmp-server enable traps
+snmp-server host 192.168.2.10 version 2c public
+
+
+
+
+
+#NNMi (Windows)
+New-NetIPAddress –InterfaceAlias "Loop1" -AddressFamily IPv4 -IPAddress 10.0.1.10 –PrefixLength 24 -DefaultGateway 10.0.1.1
+route add 10.0.0.0 mask 255.0.0.0 10.0.1.1 metric 1
+
+New-NetFirewallRule -DisplayName "SnmpPDU" -Direction Inbound -Protocol UDP  -LocalPort 161 -Action Allow
+New-NetFirewallRule -DisplayName "SnmpTraps" -Direction Inbound -Protocol UDP  -LocalPort 162 -Action Allow
+
+
+(1)
+To configure default SNMPv1 or SNMPv2c community strings for your environment:
+
+Navigate to the Communication Configuration form.
+From the workspace navigation panel, select the  Configuration workspace.
+Select the Communication Configuration.
+Locate the Default SNMPv1/v2c Community Strings tab.
+To provide a default read community string, navigate to the Read Community Strings table and do one of the following:
+
+To establish a community string setting, click the  New icon. In the Default Read Community String form, provide the required information (see table).
+To edit a community string setting, click the  Open icon in the row representing the community string setting you want to edit. In the Default Read Community String form, provide the required information (see table).
+To delete a community string setting, select a row and click the  Delete icon.
+To provide a default write community string, navigate to the Write Community String attribute (see table).
+
+(2)
+From the workspace navigation panel, select the  Configuration workspace.
+Select the Discovery.
+
+
+#References
+Configure Default Community Strings (SNMPv1 or SNMPv2c)
+http://helpfiles.intactcloud.com/NNMi/9.22/nnmDocs_en/htmlHelp/nmHelp/Subsystems/nmAdminHelp/Content/nmAdminHelp/nmAdmConfComm0110DefCommStrTab.htm
+
+HP NNM
+https://www.youtube.com/playlist?list=PLDE8F6DD26352DEC6

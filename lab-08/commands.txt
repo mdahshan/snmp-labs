@@ -1,0 +1,82 @@
+!How to search snmp mib using regex
+show snmp mib | i ifIn
+
+!Find interface numbers
+show snmp mib ifmib ifindex
+!--Result
+Ethernet0/0: Ifindex = 1
+Null0: Ifindex = 8
+Serial0/0: Ifindex = 6
+Ethernet1/0: Ifindex = 2
+Serial0/1: Ifindex = 7
+Ethernet1/1: Ifindex = 3
+Ethernet1/2: Ifindex = 4
+Ethernet1/3: Ifindex = 5
+--!
+
+
+
+!Enable SNMP (not necessary)
+snmp-server host 10.2.0.12 public
+snmp-server community public RO SNMP_ACL
+snmp-server enable traps snmp authentication linkdown linkup coldstart warmstart
+
+ip access-list standard SNMP_ACL
+  permit 10.2.0.12
+  exit
+  
+
+
+!Setup  two events
+!event 1 when rising-threshold exceeds 2000
+!event 2 when falling-threshold below 1000 
+rmon event 1 log description HighInput owner NET311
+rmon event 2 log description LowInput owner NET311
+
+!The number 10 means sample every 10 seconds
+
+!The number after ifInOctets is the interface number obtained from the "show snmp mib ifmib ifindex" command
+rmon alarm 1 ifInOctets.2 10 delta rising-threshold 2000 1 falling-threshold 1000 2 owner NET311
+
+
+
+!Generate traffic
+!ping 100 times
+ping 10.2.0.12 repeat 100
+
+!Show alarms
+show rmon alarms
+!--
+Alarm 1 is active, owned by NET311
+ Monitors ifInOctets.1 every 30 second(s)
+ Taking delta samples, last value was 0
+ Rising threshold is 2000, assigned to event 1
+ Falling threshold is 1000, assigned to event 2
+ On startup enable rising or falling alarm
+--!
+
+!Show events
+show rmon events
+!--
+Event 1 is active, owned by NET311
+ Description is Rising
+ Event firing causes log,
+ last event fired at  0y0w0d,00:47:17,
+ Current uptime       0y0w0d,01:04:11
+ Current log entries:
+  index  uptime              description
+  1      0y0w0d,00:47:17     Rising
+Event 2 is active, owned by NET311
+ Description is Falling
+ Event firing causes log,
+ last event fired at  0y0w0d,00:47:47,
+ Current uptime       0y0w0d,01:04:11
+ Current log entries:
+  index  uptime              description
+  1      0y0w0d,00:47:47     Falling
+--!
+
+
+
+
+rmon alarm 2 ifInOctets.2 10 delta rising-threshold 2000 1 falling-threshold 1000 2 owner NET311

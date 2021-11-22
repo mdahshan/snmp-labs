@@ -1,0 +1,22 @@
+#Install snmpd
+sudo apt-get install snmpd
+
+#Edit configuration file
+
+vi /etc/snmp/snmpd.conf
+
+#Comment line
+agentAddress udp:127.0.0.1:161
+
+#Uncomment the line
+agentAddress udp:161,udp6[::1]:161
+
+#This causes host to listen on all interfaces. Otherwise will list on localhost only.
+
+
+#Install snmp-mibs-downloader so that you can query MIB by name instead of numbers
+sudo apt-get install snmp-mibs-downloader
+
+#Download and install  ManageEngine MIB browser free from
+https://www.manageengine.com/products/mibbrowser-free-tool/download.html
+

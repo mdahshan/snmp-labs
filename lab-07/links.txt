@@ -1,0 +1,6 @@
+
+http://www.net-snmp.org/docs/man/snmpd.conf.html
+http://www.net-snmp.org/wiki/index.php/Vacm
+http://docstore.mik.ua/orelly/networking_2ndEd/snmp/appf_02.htm
+http://www.net-snmp.org/tutorial/tutorial-5/commands/snmpv3.html
+http://xmodulo.com/configure-snmpv3-ubuntu-centos-cisco.html
